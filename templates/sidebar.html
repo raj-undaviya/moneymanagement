@@ -1,0 +1,44 @@
+{% load static %}
+<div class="sticky top-0 left-0 bottom-0 w-64 h-screen px-6 text-white overflow-hidden transition-all duration-500 background-color">
+  <img src="{% static '/img/favicon.png' %}" alt="Logo" class="h-24 px-12 py-4">
+  <div class="h-88vh relative">
+    <ul class="list-none p-0">
+      <li class="p-1.6 my-2 mx-0 rounded-lg transition-all duration-500 ease-in-out hover:bg-opacity-75" id="dashboard">
+        <a href="{% url 'dashboardPage' %}" class="flex items-center gap-6 text-white text-base no-underline">
+          <i class="fas text-lg  fa-tachometer-alt"></i>
+          <span class="overflow-hidden">Dashboard</span>
+        </a>
+      </li>
+      <li class="p-1.6 my-2 mx-0 rounded-lg transition-all duration-500 ease-in-out hover:bg-opacity-75">
+        <a href="{% url 'addaccountPage' %}" class="flex items-center gap-6 text-white text-base no-underline">
+          <i class="fa  text-lg fa-user-plus"></i>
+          <span class="overflow-hidden">Accounts</span>
+        </a>
+      </li>
+      <li class="p-1.6 my-2 mx-0 rounded-lg transition-all duration-500 ease-in-out hover:bg-opacity-75">
+        <a href="{% url 'transactionPage' %}" class="flex items-center gap-6 text-white text-base no-underline">
+          <i class="fa  text-lg fa-random"></i>
+          <span class="overflow-hidden">Transaction</span>
+        </a>
+      </li>
+      <li class="p-1.6 my-2 mx-0 rounded-lg transition-all duration-500 ease-in-out hover:bg-opacity-75">
+        <a href="{% url 'reportsPage' %}" class="flex items-center gap-6 text-white text-base no-underline">
+          <i class="fa  text-lg fa-chart-pie"></i>
+          <span class="overflow-hidden">Report</span>
+        </a>
+      </li>
+      <li class="p-1.6 my-2 mx-0 rounded-lg transition-all duration-500 ease-in-out hover:bg-opacity-75">
+        <a href="{% url 'userprofilePage' %}" class="flex items-center gap-6 text-white text-base no-underline">
+          <i class="fas text-lg  fa-user"></i>
+          <span class="overflow-hidden">Profile</span>
+        </a>
+      </li>
+    </ul>
+    <div class="absolute bottom-15 left-0 w-full">
+      <a href="{% url 'logout' %}" class="flex items-center gap-6 text-white text-base no-underline">
+        <i class="fas text-lg  fa-sign-out-alt"></i>
+        <span class="overflow-hidden">Logout</span>
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% block title %}
+    Login
+{% endblock title %}
+{% block body %}
+<div class="flex justify-center items-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="text-2xl font-bold mb-4">Login</div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-gray-600 font-medium mb-1" for="email">Email Address</label>
+                    <input class="w-full px-4 py-2 border border-gray-300 rounded" type="text" placeholder="Enter Email Address/Username" id="email" name="email" required/>
+                </div>
+                <div>
+                    <label class="block text-gray-600 font-medium mb-1" for="password">Password</label>
+                    <input class="w-full px-4 py-2 border border-gray-300 rounded" type="password" placeholder="Password" id="password" name="password" required/>
+                </div>
+                <div class="text-right">
+                    <a href="{% url 'forgotPasswordPage' %}" class="text-color hover:underline">Forgot Password?</a>
+                </div>
+            </div>
+            <div class="mt-6">
+                <input class="file-submit-btn w-full py-2 bg-tomato text-white rounded-md shadow-sm cursor-pointer" type="submit" value="Sign Up">
+            </div>
+        </form>
+        <p class="text-center mt-4">
+            Don't have an Account? <a href="{% url 'registerPage' %}" class="text-color hover:underline">Register here</a>
+        </p>
+    </div>
+</div>
+{% endblock body %}

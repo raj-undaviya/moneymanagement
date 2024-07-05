@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+{% block title %} OTP Verification {% endblock title %}
+{% block body %}
+<div class="flex justify-center items-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-[768px] max-w-sm">
+        <div class="text-2xl font-bold mb-4 text-left">OTP Verification</div>
+        <form method="post" id="otp-form">
+            {% csrf_token %}
+            <p class="text-left mb-4">
+                <a href="{% url 'homePage' %}" class="text-color hover:underline">Back To Login</a>
+            </p>
+            <div class="mb-4">
+                <input type="email" value="{{ recipient.recipient }}" id="email" name="email" disabled class="w-full p-2 border rounded bg-gray-100" />
+            </div>
+            <div class="mb-4">
+                <input type="text" placeholder="Enter OTP" id="otp" name="otp" required class="w-full p-2 border rounded" />
+            </div>
+            <button type="submit" id="submit-btn" class="file-submit-btn w-full text-white p-2 rounded">Generate OTP</button>
+        </form>
+    </div>
+</div>
+{% endblock body %}

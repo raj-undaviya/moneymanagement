@@ -1,0 +1,118 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+Transaction
+{% endblock title %}
+{% block body %}
+{% include 'sidebar.html' %}
+{% include 'header.html' %}
+{% include 'header.html' %}
+{% include 'wrapper-start.html' %}
+  <form method="post" class="my-2">
+    {% csrf_token %}
+    <div class="bg-white rounded-lg p-4">
+      <h3 class="text-lg font-semibold mb-4 text-color">Add Transaction</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="transaction_date" class="block text-sm font-medium text-color">Transaction Date</label>
+          <input id="transaction_date" type="date" name="transaction_date" class="mt-1 px-3 py-2 border rounded-md w-full">
+        </div>
+        <div>
+          <label for="account_name" class="block text-sm font-medium text-color">Account Name</label>
+          <select id="account_name" name="account_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" style="background: #dfe9f5; height: 48px; padding: 12px 4px;">
+            <option selected>Select Account...</option>
+            {% for userdata in userdata %}
+            <option value="{{ userdata.account_name }}">{{ userdata.account_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label for="credit_amount" class="block text-sm font-medium text-color">Credit Amount</label>
+          <input id="credit_amount" type="text" name="credit_amount" placeholder="Credit Amount" class="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label for="debit_amount" class="block text-sm font-medium text-color">Debit Amount</label>
+          <input id="debit_amount" type="text" name="debit_amount" placeholder="Debit Amount" class="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:border-blue-500">
+        </div>
+      </div>
+      <button type="submit" class="file-submit-btn mt-4 px-4 py-2 text-white rounded-md">Submit</button>
+    </div>
+  </form>
+
+  {% if transactiondata %}
+  <div class="bg-white mb-8 p-4">
+    <div class="mt-4">
+      <h3 class="text-lg font-semibold mb-4 text-color">Transaction Report</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border-gray-200">
+          <thead>
+            <tr>
+              <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Sr. No.</th>
+              <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Transaction Date</th>
+              <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Account Name</th>
+              <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Credit Amount</th>
+              <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Debit Amount</th>
+              <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for transactiondata in transactiondata %}
+            <tr class="hover:bg-gray-100">
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ forloop.counter }}.</td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ transactiondata.transaction_date }}</td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ transactiondata.account_name }}</td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ transactiondata.credit_amount|default:"-" }}</td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ transactiondata.debit_amount|default:"-" }}</td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <a href="{% url 'update_record' transactiondata.transaction_id %}" class="text-green-600 hover:text-indigo-900 mr-2">
+                  <button class="text-green-500 bg-transparent cursor-pointer w-12 ml-5"><i class="fas fa-pencil-alt"></i></button>
+                </a>
+                <a href="{% url 'delete_record' transactiondata.transaction_id %}" class="text-red-600 hover:text-red-900">
+                  <button class="text-red-500"><i class="fas fa-trash-alt"></i></button>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6" class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Total Transactions: {{ transactiondata | length }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="bg-red-200 h-12 text-red-700 p-2 rounded-lg">
+    {{ empty_message }}
+  </div>
+  {% endif %}
+{% include 'wrapper-end.html' %}
+<script>
+  // Get references to the credit and debit amount input fields
+  const creditAmountInput = document.getElementById("credit_amount");
+  const debitAmountInput = document.getElementById("debit_amount");
+
+  // Add event listeners to both input fields
+  creditAmountInput.addEventListener("input", function() {
+    // If credit amount is entered, disable the debit amount input field
+    if (this.value.trim() !== "") {
+      debitAmountInput.disabled = true;
+    } else {
+      // If credit amount is cleared, enable the debit amount input field
+      debitAmountInput.disabled = false;
+    }
+  });
+
+  debitAmountInput.addEventListener("input", function() {
+    // If debit amount is entered, disable the credit amount input field
+    if (this.value.trim() !== "") {
+      creditAmountInput.disabled = true;
+    } else {
+      // If debit amount is cleared, enable the credit amount input field
+      creditAmountInput.disabled = false;
+    }
+  });
+</script>
+{% endblock body %}

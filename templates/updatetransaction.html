@@ -1,0 +1,77 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+Transaction Details
+{% endblock title %}
+{% block body %}
+{% include 'sidebar.html' %}
+<div class="relative bg-blue-60 w-full p-4 flex flex-col p-4">
+  <div class="flex justify-between items-center flex-wrap bg-white rounded-lg p-4 mb-4">
+    <h2 class="text-2xl font-semibold text-color">Transaction</h2>
+    <div class="flex items-center gap-4">
+      <div class="bg-gray-200 rounded-lg text-red-500 flex items-center gap-2 px-3 py-1">
+        <i class="fa fa-search text-lg cursor-pointer transition-transform hover:scale-125"></i>
+        <input type="text" placeholder="Search" class="bg-transparent py-2 px-4 outline-none">
+      </div>
+      <img src="{{ accountdata.profile_image }}" alt="Profile Image" class="w-10 h-10 rounded-full mx-4">
+      <span>{{ accountdata.firstname }} {{ accountdata.lastname }}</span>
+    </div>
+  </div>
+  <form method="post" class="my-2">
+    {% csrf_token %}
+    <div class="bg-white rounded-lg p-4">
+      <h3 class="text-lg font-semibold mb-4 text-color">Edit Transaction</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="transaction_date" class="block text-sm font-medium text-color">Transaction Date</label>
+          <input id="transaction_date" type="text" value="{{ transactiondata.transaction_date }}" name="transaction_date" class="mt-1 px-3 py-2 border rounded-md w-full" disabled>
+        </div>
+        <div>
+          <label for="account_name" class="block text-sm font-medium text-color">Account Name</label>
+          <select id="account_name" name="account_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" style="background: #dfe9f5; height: 48px; padding: 12px 4px;">
+            <option value="{{ transactiondata.account_name }}" selected>{{ transactiondata.account_name }}</option>
+            {% for userdata in userdata %}
+            <option value="{{ userdata.account_name }}">{{ userdata.account_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label for="credit_amount" class="block text-sm font-medium text-color">Credit Amount</label>
+          <input id="credit_amount" type="text" name="credit_amount" value="{{ transactiondata.credit_amount }}" placeholder="Credit Amount" class="mt-1 px-3 py-2 border rounded-md w-full">
+        </div>
+        <div>
+          <label for="debit_amount" class="block text-sm font-medium text-color">Debit Amount</label>
+          <input id="debit_amount" type="text" name="debit_amount" value="{{ transactiondata.debit_amount }}" placeholder="Debit Amount" class="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:border-blue-500">
+        </div>
+      </div>
+      <button type="submit" class="file-submit-btn mt-4 px-4 py-2 text-white rounded-md">Submit</button>
+    </div>
+  </form>
+</div>
+<script>
+  // Get references to the credit and debit amount input fields
+  const creditAmountInput = document.getElementById("credit_amount");
+  const debitAmountInput = document.getElementById("debit_amount");
+
+  // Add event listeners to both input fields
+  creditAmountInput.addEventListener("input", function() {
+    // If credit amount is entered, disable the debit amount input field
+    if (this.value.trim() !== "") {
+      debitAmountInput.disabled = true;
+    } else {
+      // If credit amount is cleared, enable the debit amount input field
+      debitAmountInput.disabled = false;
+    }
+  });
+
+  debitAmountInput.addEventListener("input", function() {
+    // If debit amount is entered, disable the credit amount input field
+    if (this.value.trim() !== "") {
+      creditAmountInput.disabled = true;
+    } else {
+      // If debit amount is cleared, enable the credit amount input field
+      creditAmountInput.disabled = false;
+    }
+  });
+</script>
+{% endblock body %}

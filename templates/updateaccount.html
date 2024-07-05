@@ -1,0 +1,46 @@
+{% extends 'index.html' %} {% load static %}
+{% block title %}
+ Add Account
+{% endblock title %}
+{% block body %}
+{% include 'sidebar.html' %}
+<div class="relative bg-blue-60 w-full p-4 flex flex-col p-4">
+  <div class="flex justify-between items-center flex-wrap bg-white rounded-lg p-4 mb-4">
+    <h2 class="text-2xl font-semibold text-color">Accounts</h2>
+    <div class="flex items-center gap-4">
+      <div class="bg-gray-200 rounded-lg text-red-500 flex items-center gap-2 px-3 py-1">
+        <i class="fa fa-search text-lg cursor-pointer transition-transform hover:scale-125"></i>
+        <input type="text" placeholder="Search" class="bg-transparent py-2 px-4 outline-none">
+      </div>
+      <img src="{{ accountdata.profile_image }}" alt="Profile Image" class="w-10 h-10 rounded-full mx-4">
+      <span>{{ accountdata.firstname }} {{ accountdata.lastname }}</span>
+    </div>
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    <div class="bg-white p-4 rounded-lg inline-block">
+      <h3 class="text-color pb-2 text-base">Edit accounts</h3>
+      <div>
+        <div class="p-4 rounded-lg w-1270 flex">
+          <div>
+            <input type="text" name="account_name" id="account_name" placeholder="Name" value="{{ userdata.account_name }}" required/>
+            <input type="email" name="account_email_id" id="account_email_id" placeholder="Email Id" value="{{ userdata.account_email_id }}" required/>
+            <input type="text" name="account_phone_number" id="account_phone_number" value="{{ userdata.account_phone_number }}" placeholder="Phone Number" required/>
+          </div>
+          <div>
+            <input type="text" name="account_address_1" id="account_address_1" placeholder="Address line 1" value="{{ userdata.account_address_line_1 }}"/>
+            <input type="text" name="account_address_2" id="account_address_2" placeholder="Address line 2" value="{{ userdata.account_address_line_2 }}"/>
+            <input type="text" name="account_country" id="account_country" placeholder="Country" value="{{ userdata.account_country }}"/>
+          </div>
+          <div>
+            <input type="text" name="account_state" id="account_state" placeholder="State" value="{{ userdata.account_state }}"/>
+            <input type="text" name="account_city" id="account_city" placeholder="City" value="{{ userdata.account_city }}"/>
+            <input type="text" name="account_pincode" id="account_pincode" placeholder="Pincode" value="{{ userdata.account_pincode }}"/>
+          </div>
+        </div>
+        <button type="submit" class="file-submit-btn w-60 h-10 relative ml-4 rounded-lg text-white">+ Add</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock body %}

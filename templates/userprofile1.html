@@ -1,0 +1,141 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} User Profile {% endblock title %}
+{% block body %}
+{% include 'sidebar.html' %}
+<div class="main-content">
+  <!-- Header Content In Main Container -->
+  <div class="header-wrapper">
+    <div class="header-title">
+      <h2 class="text-2xl" style="font-weight: 900;">User Profile</h2>
+    </div>
+    <div class="user-info">
+      <div class="search-box">
+        <i class="fa fa-search"></i>
+        <input type="text" placeholder="search" />
+      </div>
+      <!-- {% if accountdata.profile_image %} -->
+      <img src="{{ accountdata.profile_image }}" alt="Profile Image" />
+      <!-- {% else %} -->
+      <!-- <i class="fa fa-user-circle fa-2x" aria-hidden="true" style="color: dimgray;"></i> -->
+      <!-- {% endif %} -->
+      {{ accountdata.firstname }} {{ accountdata.lastname }}
+    </div>
+  </div>
+  <!-- Other contents -->
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="account-card-container">
+      <h3 class="main-title">Profile</h3>
+      <div class="accounts-wrapper">
+        <div class="account-container">
+          <div class="account-img-container">
+            <!-- {% if accountdata.profile_image %} -->
+            <img
+              class="profile-upload"
+              id="profileImagePreview"
+              src="{{ accountdata.profile_image }}"
+              alt="Profile Photo"
+            />
+            <!-- {% else %} -->
+            <!-- <i class="fa fa-user-circle" aria-hidden="true" style="margin-bottom: 10px; font-size: 15em; color: dimgrey;"></i> -->
+            <!-- {% endif %} -->
+            <div style="width: calc(100% / 2 - 20px); position: relative;">
+              <div class="input-box" style="width: 100%;">
+                <span class="details">Profile Photo</span>
+                <div id="uploadContainer" class="upload-container" style="outline: none; border-radius: 5px; border: 1px solid #ccc;">
+                  <input type="file" id="profileimg" accept="image/*" name="profileimg" style="display: none;"/>
+                  <label for="profileimg" id="uploadLabel">Click or drag files to upload</label>
+                  <div class="file-details" id="fileDetails"></div>
+                </div>
+                <div class="button">
+                  <input type="submit" value="Update">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- Modal for cropping -->
+  <div id="cropModal" style="display: none; width: 450px; height: 450px;">
+      <div>
+        <img id="cropImage" src="">
+      </div>
+      <button id="cropButton">Crop</button>
+  </div>
+ 
+  
+</div>
+<script>
+  
+  const uploadContainer = document.getElementById('uploadContainer');
+  const fileInput = document.getElementById('profileimg');
+  const fileDetails = document.getElementById('fileDetails');
+  const uploadLabel = document.getElementById("uploadLabel");
+  const profileImagePreview = document.getElementById('profileImagePreview');
+  const cropModal = document.getElementById('cropModal');
+  const cropImage = document.getElementById('cropImage');
+  const cropButton = document.getElementById('cropButton');
+  let cropper;
+
+  fileInput.addEventListener('change', (event) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        cropImage.src = e.target.result;
+        cropModal.style.display = 'block';
+        cropper = new Cropper(cropImage, {
+          aspectRatio: 1,
+          viewMode: 1,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  cropButton.addEventListener('click', () => {
+    const canvas = cropper.getCroppedCanvas({
+      width: 300,
+      height: 300,
+    });
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      console.log('url -->', url)
+      profileImagePreview.src = url;
+      fileDetails.innerHTML = '';
+      const fileElem = document.createElement('span');
+      fileElem.textContent = `File: ${blob.name}`;
+      fileDetails.appendChild(fileElem);
+      uploadLabel.style.display = "none";
+
+      // Create a new file input to hold the cropped image
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(new File([blob], 'profileimg.png'));
+      fileInput.files = dataTransfer.files;
+
+      // Clean up
+      cropper.destroy();
+      cropModal.style.display = 'none';
+    });
+  });
+
+  uploadContainer.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadContainer.classList.add('dragover');
+  });
+
+  uploadContainer.addEventListener('dragleave', () => {
+    uploadContainer.classList.remove('dragover');
+  });
+
+  uploadContainer.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadContainer.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+</script>
+{% endblock body %}

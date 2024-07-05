@@ -1,0 +1,23 @@
+<div class="flex justify-between items-center flex-wrap bg-white rounded-lg p-4 mb-4 top-header">
+  <h2 class="text-2xl font-semibold text-color">Accounts</h2>
+  <div class="flex items-center gap-4">
+    <div
+      class="bg-gray-200 rounded-lg text-red-500 flex items-center gap-2 px-3 py-1"
+    >
+      <i
+        class="fa fa-search text-lg cursor-pointer transition-transform hover:scale-125"
+      ></i>
+      <input
+        type="text"
+        placeholder="Search"
+        class="bg-transparent py-2 px-4 outline-none"
+      />
+    </div>
+    <img
+      src="{{ accountdata.profile_image }}"
+      alt="Profile Image"
+      class="w-10 h-10 rounded-full mx-4"
+    />
+    <span>{{ accountdata.firstname }} {{ accountdata.lastname }}</span>
+  </div>
+</div>

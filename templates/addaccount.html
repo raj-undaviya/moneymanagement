@@ -1,0 +1,93 @@
+{% extends 'index.html' %} {% load static %}
+{% block title %}
+ Add Account
+{% endblock title %}
+{% block body %}
+{% include 'sidebar.html' %}
+{% include 'header.html' %}
+{% include 'wrapper-start.html' %}
+    <form method="post" class="mb-5">
+      {% csrf_token %}
+      <div class="bg-white p-4 rounded-lg inline-block">
+        <h3 class="text-color pb-2 text-base">Accounts</h3>
+        <div>
+          <div class="p-4 rounded-lg w-1270 flex">
+            <div>
+              <input type="text" name="account_name" id="account_name" placeholder="Name" required/>
+              <input type="email" name="account_email_id" id="account_email_id" placeholder="Email Id" required/>
+              <input type="text" name="account_phone_number" id="account_phone_number" placeholder="Phone Number" required/>
+            </div>
+            <div>
+              <!-- <input type="text" name="account_address_1" id="account_address_1" placeholder="Address line 1"/>
+              <input type="text" name="account_address_2" id="account_address_2" placeholder="Address line 2"/> -->
+              <!-- <input type="text" name="account_country" id="account_country" placeholder="Country"/> -->
+            </div>
+            <div>
+              <input type="text" name="account_state" id="account_state" placeholder="State"/>
+              <input type="text" name="account_city" id="account_city" placeholder="City"/>
+              <input type="text" name="account_pincode" id="account_pincode" placeholder="Pincode"/>
+            </div>
+          </div>
+          <button type="submit" class="file-submit-btn w-60 h-10 relative ml-4 rounded-lg text-white">+ Add</button>
+        </div>
+      </div>
+    </form>
+    {% if userdata %}
+    <div class="bg-white mb-8 p-4">
+      <div class="mt-4">
+        <h3 class="text-lg font-semibold mb-4 text-color">Account Report</h3>
+        <div class="overflow-x-auto">
+          <table class="min-w-full bg-white border-gray-200">
+            <thead>
+              <tr>
+                <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Name</th>
+                <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Email Id</th>
+                <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Phone Number</th>
+                <!-- <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Address Line 1</th>
+                <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Address line 2</th> -->
+                <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">City</th>
+                <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">State</th>
+                <!-- <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Country</th> -->
+                <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Pin Code</th>
+                <th class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for userdata in userdata %}
+              <tr class="hover:bg-gray-100">
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ userdata.account_name|default:"-" }}</td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ userdata.account_email_id|default:"-" }}</td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ userdata.account_phone_number|default:"-" }}</td>
+                <!-- <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ userdata.account_address_line_1|default:"-" }}</td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ userdata.account_address_line_2|default:"-" }}</td> -->
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ userdata.account_city|default:"-" }}</td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ userdata.account_state|default:"-" }}</td>
+                <!-- <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ userdata.account_country|default:"-" }}</td> -->
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ userdata.account_pincode|default:"-" }}</td>
+                <td class="py-3 px-4 text-sm text-gray-700">
+                  <a href="{% url 'update_user' userdata.account_id %}">
+                    <button class="text-green-500 bg-transparent cursor-pointer w-12 ml-5"><i class="fas fa-pencil-alt"></i></button>
+                  </a>
+                  <a href="{% url 'delete_user' userdata.account_id %}">
+                    <button class="text-red-500"><i class="fas fa-trash-alt"></i></button>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="7" class="px-6 py-3 border-b-2 border-gray-200 text-left text-sm leading-4 tracking-wider text-gray-500 uppercase bg-gray-200">Total Accounts: {{ userdata | length }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="bg-red-200 h-12 text-red-700 p-2 rounded-lg">
+      {{ empty_message }}
+    </div>
+    {% endif %}
+{% include 'wrapper-end.html' %}
+{% endblock body %}

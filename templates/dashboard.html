@@ -1,0 +1,134 @@
+{% extends 'index.html' %} {% load static %}
+{% block title %}
+ Dashboard 
+{% endblock title %}
+{% block body %}
+{% include 'sidebar.html' %}
+{% include 'header.html' %}
+{% include 'header.html' %}
+{% include 'wrapper-start.html' %}
+<!-- Main Content -->
+  <!-- Detail Content Of Dashboard -->
+  <div class="bg-white p-8 rounded-lg">
+    <h3 class="text-color pb-2 text-lg font-semibold">All Data</h3>
+    <div class="flex gap-4 flex-wrap grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <a href="{% url 'reportsPage' %}">
+        <div class="bg-gray-300 rounded-lg p-5 w-72 h-36 flex flex-col justify-between transition-transform hover:-translate-y-1 bg-teal-100 p-4 rounded-lg shadow">
+          <div class="flex justify-between items-center mb-5">
+            <div class="flex flex-col">
+              <span class="text-sm font-light block text-gray-700 uppercase">Total Accounts</span>
+              <span class="text-2xl font-semibold">Accounts : {{ useraccountdata | length }}</span>
+            </div>
+            <i class="fas fa-users text-teal-500 text-3xl"></i>
+          </div>
+          <span class="text-lg text-gray-600 tracking-wide hover:underline cursor-pointer text-teal-600">View All Accounts ></span>
+        </div>
+      </a>
+  
+      <a href="{% url 'reportsPage' %}">
+        <div class="bg-gray-300 rounded-lg p-5 w-72 h-36 flex flex-col justify-between transition-transform hover:-translate-y-1 bg-purple-100 p-4 rounded-lg shadow">
+          <div class="flex justify-between items-center mb-5">
+            <div class="flex flex-col">
+              <span class="text-sm font-light block text-gray-700 uppercase">Total Transactions</span>
+              <span class="text-2xl font-semibold">Transactions : {{ transactionsdata | length }}</span>
+            </div>
+            <i class="fa fa-exchange-alt text-purple-500 text-3xl"></i>
+          </div>
+          <span class="text-lg text-gray-600 tracking-wide hover:underline cursor-pointer text-purple-600">View All Transactions ></span>
+        </div>
+      </a>
+
+      <a href="{% url 'reportsPage' %}">
+        <div class="bg-gray-300 rounded-lg p-5 w-72 h-36 flex flex-col justify-between transition-transform hover:-translate-y-1 bg-green-100 p-4 rounded-lg shadow">
+          <div class="flex justify-between items-center mb-5">
+            <div class="flex flex-col">
+              <span class="text-sm font-light block text-gray-700 uppercase">Total Credit Amount</span>
+              <span class="text-2xl font-semibold">₹{{ total_credit }}.00</span>
+            </div>
+            <i class="fas fa-plus-circle text-green-500 text-3xl"></i>
+          </div>
+          <span class="text-lg text-gray-600 tracking-wide hover:underline cursor-pointer text-green-600">View All Credit History ></span>
+        </div>
+      </a>
+
+      <a href="{% url 'reportsPage' %}">
+        <div class="bg-gray-300 rounded-lg p-5 w-72 h-36 flex flex-col justify-between transition-transform hover:-translate-y-1 bg-red-100 p-4 rounded-lg shadow">
+          <div class="flex justify-between items-center mb-5">
+            <div class="flex flex-col">
+              <span class="text-sm font-light block text-gray-700 uppercase">Total Debit Amount</span>
+              <span class="text-2xl font-semibold">₹{{ total_debit }}.00</span>
+            </div>
+            <i class="fas fa-minus-circle text-red-500 text-3xl"></i>
+          </div>
+          <span class="text-lg text-gray-600 tracking-wide hover:underline cursor-pointer text-red-600">View All Debit History ></span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+  <!-- Chart Content Of Dashboard -->
+  <div class="bg-white mt-4 rounded-lg p-8">
+    <h3 class="pb-2 text-base text-color text-xl font-bold mb-4">Recent Transactions</h3>
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse">
+        <thead class="background-color text-white">
+          <tr>
+            <th class="py-3 px-4 text-left">Date</th>
+            <th class="py-3 px-4 text-left">Transaction Type</th>
+            <th class="py-3 px-4 text-left">Description</th>
+            <th class="py-3 px-4 text-left">Credit</th>
+            <th class="py-3 px-4 text-left">Debit</th>
+            <th class="py-3 px-4 text-left">Balance</th>
+            <th class="py-3 px-4 text-left">Action</th>
+          </tr>
+        </thead>
+        <tbody class="bg-gray-200">
+          <tr class="bg-white">
+            <td class="py-3 px-4 text-sm text-gray-700">2023-05-01</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Expenses</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Office Supplies</td>
+            <td class="py-3 px-4 text-sm text-gray-700">-</td>
+            <td class="py-3 px-4 text-sm text-gray-700">$250</td>
+            <td class="py-3 px-4 text-sm text-gray-700">$750</td>
+            <td class="py-3 px-4 text-sm text-gray-700"><button class="text-green-500"><i class="fas fa-pencil-alt"></i></button></td>
+          </tr>
+          <tr class="bg-gray-100">
+            <td class="py-3 px-4 text-sm text-gray-700">2023-06-01</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Expenses</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Office Supplies</td>
+            <td class="py-3 px-4 text-sm text-gray-700">$250</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Office Expenses</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Pending</td>
+            <td class="py-3 px-4 text-sm text-gray-700"><button class="text-green-500"><i class="fas fa-pencil-alt"></i></button></td>
+          </tr>
+          <tr class="bg-white">
+            <td class="py-3 px-4 text-sm text-gray-700">2023-07-01</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Expenses</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Office Supplies</td>
+            <td class="py-3 px-4 text-sm text-gray-700">$250</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Office Expenses</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Pending</td>
+            <td class="py-3 px-4 text-sm text-gray-700"><button class="text-green-500"><i class="fas fa-pencil-alt"></i></button></td>
+          </tr>
+          <tr class="bg-gray-100">
+            <td class="py-3 px-4 text-sm text-gray-700">2023-08-01</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Expenses</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Office Supplies</td>
+            <td class="py-3 px-4 text-sm text-gray-700">$250</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Office Expenses</td>
+            <td class="py-3 px-4 text-sm text-gray-700">Pending</td>
+            <td class="py-3 px-4 text-sm text-gray-700"><button class="text-green-500"><i class="fas fa-pencil-alt"></i></button></td>
+          </tr>
+        </tbody>
+        <tfoot class="background-color text-white">
+          <tr class="py-3 px-4 font-bold">
+            <td colspan="7" class="py-3 px-4 font-bold">Total: $1,000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+{% include 'wrapper-end.html' %}
+{% endblock body %}
