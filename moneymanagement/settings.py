@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$l+3e62qfk1-&o0#pz!(ptsrp@n-d)gtigw!5(lvls#x^(o03b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["money-management.binaries.org.in", "www.money-management.binaries.org.in"]
 
 
 # Application definition
@@ -103,29 +103,29 @@ WSGI_APPLICATION = 'moneymanagement.wsgi.application'
 # }
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'moneymanagementdb',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Raj@1999',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#         }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django_mongodb_engine',
-        'NAME': 'money_db',
-        'HOST':'localhost',
-        'PORT':27017,
-        # 'ENFORCE_SCHEMA': False,
-        # 'CLIENT': {
-        #     'host': 'mongodb+srv://ravi:ravi@binaryems.fm1me5n.mongodb.net/'
-        # }
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'moneymanagementdb',
+        'USER': 'postgres',
+        'PASSWORD': 'Raj@1999',
+        'HOST': 'localhost',
+        'PORT': '5432'
+        }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django_mongodb_engine',
+#         'NAME': 'money_db',
+#         'HOST':'localhost',
+#         'PORT':27017,
+#         # 'ENFORCE_SCHEMA': False,
+#         # 'CLIENT': {
+#         #     'host': 'mongodb+srv://ravi:ravi@binaryems.fm1me5n.mongodb.net/'
+#         # }
+#     }
+# }
 
 
 # Password validation
@@ -163,9 +163,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+# STATICFILES_DIRS = [
+#     [BASE_DIR, "static"],
+# ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
