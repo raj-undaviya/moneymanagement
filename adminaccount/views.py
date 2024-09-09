@@ -14,9 +14,9 @@ import random, string
 import re
 from .forms import *
 
-from pymongo import MongoClient
-client = MongoClient('connection_string')
-db = client['db_name']
+# from pymongo import MongoClient
+# client = MongoClient('connection_string')
+# db = client['db_name']
 
 logger = logging.getLogger(__name__)
 # Create your views here.
@@ -152,7 +152,7 @@ def passwordUpdate(request):
         password = request.POST.get('password')
         if not password or len(password) < 8:  # Example validation
             print("Invalid password. Password must be at least 8 characters long.")
-            return redirect('password_update_page')
+            return redirect('passwordUpdationPage')
         userdata.user_password = make_password(password)
         userdata.save()
         print("Password Updated Successfully")
@@ -201,8 +201,9 @@ def home(request):
     return render(request, 'home-page.html')
 
 def dashboard(request):
-    userdata = request.session.get('userdata')
-    id = userdata['id']
+    accountdata = request.session.get('userdata')
+    id = accountdata['id']
+    photo = accountdata['profile_image']
     useraccountdata = AccountdataModel.objects.filter(user=id)
     transactionsdata = TransactionModel.objects.filter(user=id)
     creditAmountReport = transactionsdata.exclude(credit_amount=None).values('credit_amount')
@@ -211,9 +212,9 @@ def dashboard(request):
     total_credit = sum(int(item['credit_amount']) for item in creditAmountReport)
     total_debit = sum(int(item['debit_amount']) for item in debitAmountReport)
 
-    if not userdata:
+    if not accountdata:
         return redirect('homePage')
-    return render(request, 'dashboard.html', {'userdata': userdata,
+    return render(request, 'dashboard.html', {'accountdata': accountdata,
                                               'useraccountdata':useraccountdata,
                                               'transactionsdata':transactionsdata,
                                               'total_credit': total_credit,
