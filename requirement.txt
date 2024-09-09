@@ -41,4 +41,3 @@ typing_extensions==4.12.2
 tzdata==2024.1
 urllib3==2.2.2
 virtualenv==20.26.3
-web: gunicorn momeymanegment.wsgi --log-file -
